@@ -46,3 +46,20 @@ void check_file(char *filename, char permission)
     if (!has_txt_extension(filename))
         throw_error("File does not have the .txt required extension");
 }
+
+int open_file(char *filename, int mode)
+{
+    int fd;
+
+    fd = open(filename, mode);
+    if (fd == -1)
+        throw_error("Error opening file");
+    return (fd);
+}
+
+void close_file(int fd)
+{
+    if (close(fd) == -1)
+        throw_error("Error closing file");
+}
+
