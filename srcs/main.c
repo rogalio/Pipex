@@ -7,7 +7,7 @@ int main(int argc, char **argv, char **envp)
 
     check_valid_arguments(argc, argv,envp);
     initialize_pipex_struct(&pipex, argv);
-    printf("command 1 and arguments: %s\n", pipex.cmd1[0]);
+    create_pipes(&pipex);
 
     return (0);
 }

@@ -56,6 +56,7 @@ void check_file(char *filename, char permission);
 int check_valid_command(char **argv,char **envp);
 
 // Fonctions de création et gestion des pipes de pipe_creation.c
+int create_pipes(t_pipex *pipex);
 
 // Fonctions d'exécution des commandes pour les processus enfants de child_processes.c
 
