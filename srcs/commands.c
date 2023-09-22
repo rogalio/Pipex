@@ -16,7 +16,6 @@ int get_env_var(char **envp, char *var)
     return (-1);
 }
 
-
 static char	**get_path_directories(char **envp)
 {
     int		index;
@@ -101,21 +100,27 @@ char **get_command(char *arg)
     return (cmd);
 }
 
-int check_valid_command(char **argv,char **envp)
+static int is_command_valid(char *cmd, char **envp)
 {
-    char **cmd1;
-    char **cmd2;
+    char **split_cmd;
+     
+    split_cmd = get_command(cmd);
+    if (!split_cmd)
+        throw_error("Failed to split command");
+    if (!command_exists(split_cmd[0], envp))
+    {
+        free_split(split_cmd);
+        return (0);
+    }
+    free_split(split_cmd);
+    return (1);
+}
 
-    cmd1 = get_command(CMD1);
-    cmd2 = get_command(CMD2);
-
-    if (!command_exists(cmd1[0], envp))
+int check_valid_command(char **argv, char **envp)
+{
+    if (!is_command_valid(CMD1, envp))
         throw_error("Command 1 not found");
-    if (!command_exists(cmd2[0], envp))
+    if (!is_command_valid(CMD2, envp))
         throw_error("Command 2 not found");
-
-    free_split(cmd1);
-    free_split(cmd2);
-
     return (0);
 }
