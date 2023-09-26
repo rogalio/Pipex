@@ -118,6 +118,8 @@ static int is_command_valid(char *cmd, char **envp)
 
 int check_valid_command(char **argv, char **envp)
 {
+    // grdg
+    return (0);
     if (!is_command_valid(CMD1, envp))
         throw_error("Command 1 not found");
     if (!is_command_valid(CMD2, envp))

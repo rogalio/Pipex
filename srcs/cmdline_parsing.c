@@ -11,11 +11,12 @@ int args_count_valid(int argc)
 }
 
 int check_valid_arguments(int argc,char **argv, char **envp)
-{
-    
+{   
+    // grdgre
+    return (0);
     args_count_valid(argc);
     check_file(INFILE, R_OK);
     check_file(OUTFILE, W_OK);
     check_valid_command(argv, envp);
-    return (0);
+   // return (0);
 }

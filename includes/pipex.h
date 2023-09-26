@@ -51,6 +51,8 @@ int is_directory(char *filename);
 int file_has_permission(char *filename, int mode);
 int has_txt_extension(char *filename);
 void check_file(char *filename, char permission);
+int open_file(char *filename, int mode);
+void close_file(int fd);
 
 // Fonctions de gestion des commandes de commands.c
 int check_valid_command(char **argv,char **envp);
