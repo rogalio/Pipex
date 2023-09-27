@@ -30,64 +30,54 @@ static char	**get_path_directories(char **envp)
     return (dirs);
 }
 
-static int command_exists_in_directory(char *cmd, char *dir)
+static char *build_fullpath(char *dir, char *cmd)
 {
-    char	*temp;
-    char	*path;
-    int		exists;
+    char *fullpath;
+    char *temp;
 
     temp = ft_strjoin(dir, "/");
     if (!temp)
-        return (0);
-    path = ft_strjoin(temp, cmd);
-    free(temp); // Libérez la mémoire allouée par le premier ft_strjoin
-    if (!path)
-        return (0);
-    exists = file_exists(path);
+        return (NULL);
 
-    free(path);
-    return (exists);
+    fullpath = ft_strjoin(temp, cmd);
+    free(temp);
+    return (fullpath);
 }
-
-
 
 char *get_command_path(char *cmd, char **envp)
 {
-    char	**dirs;
-    int		i;
-    char    *fullpath;
+    char **dirs;
+    int i;
+    char *fullpath;
 
     dirs = get_path_directories(envp);
     if (!dirs)
         return (NULL);
+
     i = 0;
     while (dirs[i])
     {
-        if (command_exists_in_directory(cmd, dirs[i]))
+        fullpath = build_fullpath(dirs[i], cmd);
+        if (!fullpath)
+            return (NULL);
+        if (file_exists(fullpath))
         {
-            fullpath = ft_strjoin(dirs[i], "/");
-            if (!fullpath)
-                return (NULL);
-            fullpath = ft_strjoin(fullpath, cmd);
             free_split(dirs);
             return (fullpath);
         }
+        free(fullpath);
         i++;
     }
     free_split(dirs);
     return (NULL);
 }
 
-
-
 char **get_command(char *arg)
 {
     char **cmd;
 
-    cmd = ft_split(arg, ' ');
+    cmd = split(arg);
     if (!cmd)
         return (NULL);
     return (cmd);
 }
-
-

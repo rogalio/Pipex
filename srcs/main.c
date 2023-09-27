@@ -1,14 +1,12 @@
 #include "pipex.h"
 
-
 int main(int argc, char **argv, char **envp)
 {   
     t_pipex pipex;
    
-    check_valid_arguments(argc, argv,envp);
+    check_valid_arguments(argc, argv);
     initialize_pipex_struct(&pipex, argv, envp);
     create_pipes(&pipex);
 
     return (0);
 }
-

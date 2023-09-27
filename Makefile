@@ -10,7 +10,6 @@ SRCS = main.c \
        cmdline_parsing.c \
        file_handling.c \
        pipe_creation.c \
-       child_processes.c \
        error_handling.c \
        free.c \
 	   commands.c 

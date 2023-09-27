@@ -21,36 +21,55 @@ int count_words(char *str)
     return (num_words);
 }
 
+char **split(char *str)
+{
+    char **arr;
+    int i;
+    int j;
+    int k;
+
+    arr = (char **)malloc(sizeof(char *) * (count_words(str) + 1));
+    if (!arr)
+        return (NULL);
+    i = 0;
+    j = 0;
+    while (str[i])
+    {
+        if (str[i] != ' ')
+        {
+            k = 0;
+            while (str[i + k] && str[i + k] != ' ')
+                k++;
+            arr[j] = (char *)malloc(sizeof(char) * (k + 1));
+            if (!arr[j])
+                return (NULL);
+            k = 0;
+            while (str[i] && str[i] != ' ')
+                arr[j][k++] = str[i++];
+            arr[j][k] = '\0';
+            j++;
+        }
+        else
+            i++;
+    }
+    arr[j] = NULL;
+    return (arr);
+}
+
+static void assign_command_and_path(char ***cmd, char **cmd_path, char *arg, char **envp)
+{
+    *cmd = get_command(arg);
+    if (!*cmd)
+        throw_error("Error getting command");
+    *cmd_path = get_command_path((*cmd)[0], envp);
+    if (!*cmd_path)
+        throw_error("Command not found");
+}
+
 void initialize_pipex_struct(t_pipex *pipex, char **argv, char **envp)
 {
-    char *cmd1path;
-    char *cmd2path;
-    char **cmd1;
-    char **cmd2;
-
-    cmd1 = get_command(CMD1);
-    cmd2 = get_command(CMD2);
-    cmd1path = get_command_path(cmd1[0], envp);
-    cmd2path = get_command_path(cmd2[0], envp);
-    if (!cmd1path || !cmd2path)
-        throw_error("Command not found");
-    
-
     pipex->input_file = INFILE;
     pipex->output_file = OUTFILE;
-    pipex->cmd1 = cmd1;
-    pipex->cmd2 = cmd2;
-    pipex->cmd1_path = cmd1path;
-    pipex->cmd2_path = cmd2path;
-
-    printf("input file: %s\n", pipex->input_file);
-    printf("output file: %s\n", pipex->output_file);
-    printf("cmd1: %s\n", pipex->cmd1[0]);
-    printf("cmd2: %s\n", pipex->cmd2[0]);
-    printf("cmd1 path: %s\n", pipex->cmd1_path);
-    printf("cmd2 path: %s\n", pipex->cmd2_path);
-
-
-    free_split(cmd1);
-    free_split(cmd2);
+    assign_command_and_path(&pipex->cmd1, &pipex->cmd1_path, CMD1, envp);
+    assign_command_and_path(&pipex->cmd2, &pipex->cmd2_path, CMD2, envp);
 }
