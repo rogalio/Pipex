@@ -29,16 +29,15 @@ typedef struct s_pipex
     char *output_file;
     char **cmd1;
     char **cmd2;
-    char separator;
-    int *pipes;
-    int *pids;
+    char *cmd1_path;
+    char *cmd2_path;
 } t_pipex;
 
 
 
 // Fonctions utilitaires de pipex_utils.c
 int count_words(char *str);
-void initialize_pipex_struct(t_pipex *pipex, char **argv);
+void initialize_pipex_struct(t_pipex *pipex, char **argv, char **envp);
 
 // Fonctions d'analyse de la ligne de commande de cmdline_parsing.c
 int args_count_valid(int argc);
@@ -49,13 +48,14 @@ int check_valid_arguments(int argc,char **argv, char **envp);
 int file_exists(char *filename);
 int is_directory(char *filename);
 int file_has_permission(char *filename, int mode);
-int has_txt_extension(char *filename);
 void check_file(char *filename, char permission);
 int open_file(char *filename, int mode);
 void close_file(int fd);
 
 // Fonctions de gestion des commandes de commands.c
 int check_valid_command(char **argv,char **envp);
+char *get_command_path(char *cmd, char **envp);
+
 
 // Fonctions de création et gestion des pipes de pipe_creation.c
 int create_pipes(t_pipex *pipex);

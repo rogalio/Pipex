@@ -2,13 +2,15 @@
 
 static void child_process(t_pipex *pipex, int *fd)
 {
-    printf("start of child\n");
+
     
     int fdes = open(pipex->input_file, O_RDONLY);
     if (fdes == -1) {
         perror("Error opening input file");
         exit(1);
     }
+
+    
     
     close(fd[0]);
     dup2(fdes, STDIN_FILENO);
