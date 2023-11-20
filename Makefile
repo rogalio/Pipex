@@ -2,20 +2,21 @@ NAME = pipex
 
 # Compilation flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 # Source files and objects
-SRCS = main.c \
+SRCDIR = srcs/
+OBJDIR = obj/
+SRCS = pipex.c \
        pipex_utils.c \
        cmdline_parsing.c \
        file_handling.c \
        pipe_creation.c \
        error_handling.c \
        free.c \
-	   commands.c 
-
-SRCDIR = srcs/
-OBJS = $(addprefix $(SRCDIR), $(SRCS:.c=.o))
+       commands.c 
+OBJS = $(SRCS:.c=.o)
+OBJS_PREF = $(addprefix $(OBJDIR), $(OBJS))
 
 # Include directory
 INCDIR = includes/
@@ -23,20 +24,23 @@ INCLUDES = -I$(INCDIR) -I./libft
 
 LIBFT = libft/libft.a
 
-all: $(NAME)
+all: $(OBJDIR) $(NAME)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
 $(LIBFT):
 	make -C libft
 
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -L./libft -lft -o $(NAME)
+$(NAME): $(OBJS_PREF) $(LIBFT)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS_PREF) -L./libft -lft -o $(NAME)
 
-$(SRCDIR)%.o: $(SRCDIR)%.c
+$(OBJDIR)%.o: $(SRCDIR)%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	make clean -C libft
-	rm -f $(OBJS)
+	rm -rf $(OBJDIR)
 
 fclean: clean
 	make fclean -C libft

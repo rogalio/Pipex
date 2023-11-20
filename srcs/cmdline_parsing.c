@@ -3,10 +3,7 @@
 int args_count_valid(int argc)
 {
     if (argc != 5)
-    {
-        ft_putstr_fd("Error: wrong number of arguments\n", 2); 
-        exit(1);
-    }
+        throw_error("Invalid number of arguments");
     return (0);
 }
 

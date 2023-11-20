@@ -1,45 +1,36 @@
 #include "pipex.h"
 
-static void child_process(t_pipex *pipex, int *fd)
+static void child_process(char **argv, char **envp, int *fd)
 {
-    int input_fd;
-  
-    input_fd = open_file(pipex->input_file, O_RDONLY);
-    
-    close(fd[0]);
-    dup2(input_fd, STDIN_FILENO);
-    dup2(fd[1], STDOUT_FILENO);
-    close(input_fd);
-    close(fd[1]);
+	int		filein;
 
-    execve(pipex->cmd1_path, pipex->cmd1, NULL);
-    perror("Error executing child process");
-    exit(1);
+	filein = open(argv[1], O_RDONLY, 0777);
+   
+	if (filein == -1)
+		error();
+	dup2(fd[1], STDOUT_FILENO);
+	dup2(filein, STDIN_FILENO);
+	close(fd[0]);
+	execute(argv[2], envp);
 }
 
-static void parent_process(t_pipex *pipex, int *fd)
+static void parent_process(char **argv, char **envp, int *fd)
 {
-    int status;
-    int output_fd;
+	int		fileout;
 
-
-    waitpid(-1, &status, 0);
-    output_fd = open_file(pipex->output_file, O_WRONLY | O_CREAT | O_TRUNC);
-
-    close(fd[1]);
-    dup2(fd[0], STDIN_FILENO);
-    dup2(output_fd, STDOUT_FILENO);
-    close(fd[0]);
-    close(output_fd);
-
-    execve(pipex->cmd2_path, pipex->cmd2, NULL);
-    perror("Error executing parent process");
-    exit(1);
+	fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fileout == -1)
+		throw_error("Error opening file");
+	dup2(fd[0], STDIN_FILENO);
+	dup2(fileout, STDOUT_FILENO);
+	close(fd[1]);
+	execute(argv[3], envp);
 }
 
 
-int create_pipes(t_pipex *pipex)
+int create_pipes(char **argv, char **envp)
 {
+
     int fd[2];
     pid_t pid;
 
@@ -51,9 +42,9 @@ int create_pipes(t_pipex *pipex)
     if (pid == -1)
         throw_error("Error Forking");
     if (pid == 0)
-        child_process(pipex, fd);
-    else
-        parent_process(pipex, fd);
+        child_process(argv,envp,fd);
+    waitpid(pid, NULL, 0);
+    parent_process(argv,envp,fd);
 
     return (0);
 }

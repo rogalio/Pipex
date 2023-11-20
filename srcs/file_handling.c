@@ -31,6 +31,8 @@ void check_file(char *filename, char permission)
         throw_error("File does not have the required permissions");
 }
 
+
+/*
 int open_file(char *filename, int mode)
 {
     int fd;
@@ -44,3 +46,4 @@ int open_file(char *filename, int mode)
         throw_error("Error opening file");
     return (fd);
 }
+*/
