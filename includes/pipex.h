@@ -57,4 +57,8 @@ void throw_error_and_free(char *msg, char **arr);
 // Fonctions de gestion de la mémoire de free.c
 void free_split(char **tab);
 
+// Fonctions utilitaires pipex_utils_bonus.c
+int	open_file(char *argv, int i);
+void	usage(void);
+
 #endif

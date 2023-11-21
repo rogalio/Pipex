@@ -30,20 +30,3 @@ void check_file(char *filename, char permission)
     if (!file_has_permission(filename, permission))
         throw_error("File does not have the required permissions");
 }
-
-
-/*
-int open_file(char *filename, int mode)
-{
-    int fd;
-
-    if (mode == O_RDONLY)
-        check_file(filename, R_OK);
-    if (mode == O_WRONLY || mode == O_CREAT || mode == O_TRUNC)
-        check_file(filename, W_OK);
-    fd = open(filename, mode, 0644);
-    if (fd == -1)
-        throw_error("Error opening file");
-    return (fd);
-}
-*/
