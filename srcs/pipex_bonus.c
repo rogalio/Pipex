@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/14 11:55:25 by rogalio           #+#    #+#             */
+/*   Updated: 2023/12/14 12:34:07 by rogalio          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	child_process(char *argv, char **envp)
@@ -24,9 +36,6 @@ void	child_process(char *argv, char **envp)
 	}
 }
 
-/* Function who make a child process that will read from the stdin with
- get_next_line until it find the limiter word and then put the output inside a
- pipe. The main process will change his stdin for the pipe file descriptor. */
 void	here_doc(char *limiter, int argc)
 {
 	pid_t	reader;
@@ -56,33 +65,31 @@ void	here_doc(char *limiter, int argc)
 	}
 }
 
-int main(int argc, char **argv, char **envp)
-{   
-    int i;
-    int input_fd;
-    int output_fd;
+int	main(int argc, char **argv, char **envp)
+{
+	int	i;
+	int	input_fd;
+	int	output_fd;
 
-
-    if (argc >= 5)
-    {
-        if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-        {
-            i = 3;
-            output_fd = open_file(argv[argc - 1], 1);
-            here_doc(argv[2], argc);
-        }
-        else 
-        {
-            i = 2;
-            input_fd = open_file(argv[1], 2);
-            output_fd = open_file(argv[argc - 1], 1);
-            dup2(input_fd, STDIN_FILENO);
-        }
-        while (i < argc - 2)
-            child_process(argv[i++], envp); 
-        dup2(output_fd, STDOUT_FILENO);
-        execute(argv[i], envp);
-    }
-    usage();
-    return (0);
+	if (argc >= 5)
+	{
+		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+		{
+			i = 3;
+			output_fd = open_file(argv[argc - 1], 1);
+			here_doc(argv[2], argc);
+		}
+		else
+		{
+			i = 2;
+			input_fd = open_file(argv[1], 2);
+			output_fd = open_file(argv[argc - 1], 1);
+			dup2(input_fd, STDIN_FILENO);
+		}
+		while (i < argc - 2)
+			child_process(argv[i++], envp);
+		dup2(output_fd, STDOUT_FILENO);
+		execute(argv[i], envp);
+	}
+	return (0);
 }

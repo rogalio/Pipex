@@ -1,8 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/14 12:37:43 by rogalio           #+#    #+#             */
+/*   Updated: 2023/12/14 12:47:12 by rogalio          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-
-/* Function that will look for the path line inside the environment, will
- split and test each command path and then return the right one. */
 char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
@@ -39,18 +48,16 @@ void	error(void)
 	exit(EXIT_FAILURE);
 }
 
-/* Function that take the command and send it to find_path
- before executing it. */
 void	execute(char *argv, char **envp)
 {
 	char	**cmd;
-	int 	i;
+	int		i;
 	char	*path;
-	
+
 	i = -1;
 	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], envp);
-	if (!path)	
+	if (!path)
 	{
 		while (cmd[++i])
 			free(cmd[i]);

@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils_bonus.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/14 12:34:41 by rogalio           #+#    #+#             */
+/*   Updated: 2023/12/14 12:37:11 by rogalio          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-/* Function to open the files with the right flags */
 int	open_file(char *argv, int i)
 {
 	int	file;
@@ -21,6 +32,5 @@ void	usage(void)
 {
 	ft_putstr_fd("\033[31mError: Bad argument\n\e[0m", 2);
 	ft_putstr_fd("Ex: ./pipex <file1> <cmd1> <cmd2> <...> <file2>\n", 1);
-	ft_putstr_fd("    ./pipex \"here_doc\" <LIMITER> <cmd> <cmd1> <...> <file>\n", 1);
 	exit(EXIT_SUCCESS);
 }

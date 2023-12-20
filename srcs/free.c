@@ -1,13 +1,23 @@
-#include "pipex.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/14 11:46:46 by rogalio           #+#    #+#             */
+/*   Updated: 2023/12/14 11:47:42 by rogalio          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// free cmds dans init_pipex_struct
+#include "pipex.h"
 
 void	free_split(char **tab)
 {
-	int i;
+	int	i;
 
 	if (!tab)
-		return;
+		return ;
 	i = 0;
 	while (tab[i])
 	{

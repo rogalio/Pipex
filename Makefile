@@ -8,8 +8,8 @@ CFLAGS = -g -Wall -Wextra -Werror
 # Source files and objects
 SRCDIR = srcs/
 OBJDIR = obj/
-SRCS = pipex.c pipex_utils.c cmdline_parsing.c file_handling.c pipe_creation.c error_handling.c free.c commands.c
-BONUS_SRCS = pipex_bonus.c pipex_utils_bonus.c cmdline_parsing.c file_handling.c pipe_creation.c error_handling.c free.c commands.c pipex_utils.c
+SRCS = pipex.c pipex_utils.c cmdline_parsing.c file_handling.c pipe_creation.c error_handling.c free.c 
+BONUS_SRCS = pipex_bonus.c pipex_utils_bonus.c cmdline_parsing.c file_handling.c pipe_creation.c error_handling.c free.c pipex_utils.c
 OBJS = $(SRCS:.c=.o)
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 OBJS_PREF = $(addprefix $(OBJDIR), $(OBJS))

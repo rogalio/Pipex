@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_creation.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/14 11:48:07 by rogalio           #+#    #+#             */
+/*   Updated: 2023/12/14 11:55:12 by rogalio          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-static void child_process(char **argv, char **envp, int *fd)
+static void	child_process(char **argv, char **envp, int *fd)
 {
 	int		filein;
 
@@ -13,7 +25,7 @@ static void child_process(char **argv, char **envp, int *fd)
 	execute(argv[2], envp);
 }
 
-static void parent_process(char **argv, char **envp, int *fd)
+static void	parent_process(char **argv, char **envp, int *fd)
 {
 	int		fileout;
 
@@ -26,24 +38,19 @@ static void parent_process(char **argv, char **envp, int *fd)
 	execute(argv[3], envp);
 }
 
-
-int create_pipes(char **argv, char **envp)
+int	create_pipes(char **argv, char **envp)
 {
+	int		fd[2];
+	pid_t	pid;
 
-    int fd[2];
-    pid_t pid;
-
-    if (pipe(fd) == -1) 
-        throw_error("Error creating pipe");
-
-    pid = fork();
-
-    if (pid == -1)
-        throw_error("Error Forking");
-    if (pid == 0)
-        child_process(argv,envp,fd);
-    waitpid(pid, NULL, 0);
-    parent_process(argv,envp,fd);
-
-    return (0);
+	if (pipe(fd) == -1)
+		throw_error("Error creating pipe");
+	pid = fork();
+	if (pid == -1)
+		throw_error("Error Forking");
+	if (pid == 0)
+		child_process(argv, envp, fd);
+	waitpid(pid, NULL, 0);
+	parent_process(argv, envp, fd);
+	return (0);
 }
